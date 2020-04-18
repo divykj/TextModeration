@@ -75,36 +75,32 @@ function App() {
   return (
     <Container>
       <h1>Clean Blogging Site</h1>
-      <Collapse open={loading}>
-        <h4>Posting</h4>
-        <ActivityIndicator />
-      </Collapse>
-      <Collapse open={!loading}>
-        <div id="postCard">
-          <Collapse open={!!error}>
-            <Alert theme="danger">{error}</Alert>
-          </Collapse>
-          <FormInput
-            autoFocus
-            autoComplete="off"
-            placeholder="Title"
-            onChange={handleChange}
-            value={post.title}
-            name="title"
-          />
-          <FormTextarea
-            autoComplete="off"
-            rows={3}
-            placeholder="Write something nice to post..."
-            onChange={handleChange}
-            value={post.body}
-            name="body"
-          />
-          <Button theme="dark" onClick={handlePost}>
-            Post
-          </Button>
-        </div>
-      </Collapse>
+      <div id="postCard">
+        <Collapse open={!!error}>
+          <Alert theme="danger">{error}</Alert>
+        </Collapse>
+        <FormInput
+          autoFocus
+          autoComplete="off"
+          placeholder="Title"
+          onChange={handleChange}
+          value={post.title}
+          name="title"
+          disabled={loading}
+        />
+        <FormTextarea
+          autoComplete="off"
+          rows={3}
+          placeholder="Write something nice to post..."
+          onChange={handleChange}
+          value={post.body}
+          name="body"
+          disabled={loading}
+        />
+        <Button theme="dark" onClick={handlePost} disabled={loading}>
+          {loading ? <ActivityIndicator /> : "Post"}
+        </Button>
+      </div>
       <main>
         <h3>Previous blogs 🕓</h3>
         {posts.map((post, idx) => (
