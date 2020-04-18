@@ -1,17 +1,47 @@
 import React, { useState, useCallback } from "react";
-import logo from "./logo.svg";
+
+import {
+  Alert,
+  Container,
+  Card,
+  CardBody,
+  CardTitle,
+  Collapse,
+  FormTextarea,
+  FormInput,
+  Button,
+} from "shards-react";
+
+import ActivityIndicator from "./components/ActivityIndicator";
 import "./App.css";
 
+const emptyPost = { title: "", body: "" };
+const initialPosts = [
+  { title: "Welcome, user", body: "Welcome to the clean blog." },
+  {
+    title: "No toxic content",
+    body:
+      "This blog site is free completely wholesome and devoid of any toxic content.",
+  },
+  {
+    title: "Backend",
+    body: "Toxic Content Detection of this blog is powered by NLP.",
+  },
+];
+
 function App() {
-  const [text, setText] = useState("");
+  const [posts, setPosts] = useState(initialPosts);
+  const [post, setPost] = useState(emptyPost);
   const [loading, setLoading] = useState(false);
-  const [toxic, setToxic] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleChange = useCallback((event) => {
-    setText(event.target.value);
+    const { name, value } = event.target;
+    setPost((post) => ({ ...post, [name]: value }));
   }, []);
 
-  const checkToxicity = useCallback(() => {
+  const handlePost = useCallback(() => {
+    if (!post.title) return false;
     setLoading(true);
     fetch("/api/check", {
       method: "post",
@@ -19,43 +49,74 @@ function App() {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text: post.title + " " + post.body }),
     })
       .then((response) => response.json())
       .then((response) => {
-        setToxic(response.toxic ? true : false);
+        if (response.toxic)
+          setError(
+            "The post has been blocked, since it contained inappropriate content."
+          );
+        else {
+          setError(false);
+          setPosts((posts) => [...posts, post]);
+          setPost(emptyPost);
+        }
       })
       .catch((reason) => {
         console.log(reason);
+        setError("Some server error occured. Please try again later.");
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [text]);
+  }, [post]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <input
-            type="text"
-            value={text}
+    <Container>
+      <h1>Clean Blogging Site</h1>
+      <Collapse open={loading}>
+        <h4>Posting</h4>
+        <ActivityIndicator />
+      </Collapse>
+      <Collapse open={!loading}>
+        <div id="postCard">
+          <Collapse open={!!error}>
+            <Alert theme="danger">{error}</Alert>
+          </Collapse>
+          <FormInput
+            autoFocus
+            autoComplete="off"
+            placeholder="Title"
             onChange={handleChange}
-            placeholder="Enter text"
+            value={post.title}
+            name="title"
           />
-          <button onClick={checkToxicity}>Check</button>
-        </p>
-        {loading && <p>Loading...</p>}
-        <p
-          style={{
-            padding: "0.5rem 1rem",
-            backgroundColor: toxic ? "red" : "green",
-          }}>
-          {toxic ? "Toxic" : "Not Toxic"}
-        </p>
-      </header>
-    </div>
+          <FormTextarea
+            autoComplete="off"
+            rows={3}
+            placeholder="Write something nice to post..."
+            onChange={handleChange}
+            value={post.body}
+            name="body"
+          />
+          <Button theme="dark" onClick={handlePost}>
+            Post
+          </Button>
+        </div>
+      </Collapse>
+      <main>
+        <h3>Previous blogs 🕓</h3>
+        {posts.map((post, idx) => (
+          <Card key={idx}>
+            <CardBody>
+              <CardTitle>{post.title}</CardTitle>
+              <p>{post.body}</p>
+            </CardBody>
+          </Card>
+        ))}
+      </main>
+    </Container>
   );
 }
 
