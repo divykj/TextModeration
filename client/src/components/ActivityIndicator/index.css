@@ -1,17 +1,20 @@
 .ActivityIndicator .dots {
-  height: 48px;
-  padding: 20px;
-  margin-bottom: 16px;
-  display: flex;
+  height: 15px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin: 0 auto;
+  width: 36px;
   justify-content: center;
+  align-items: center;
 }
 .ActivityIndicator .dots span {
   -webkit-transition: all 6000ms ease;
   transition: all 6000ms ease;
-  background: rgba(69, 69, 69, 0.5);
+  background: rgba(255, 255, 255, 0.5);
   height: 8px;
   width: 8px;
-  margin: 0 6px 0 0;
   display: inline-block;
   border-radius: 50%;
   animation: flash 2s ease infinite;
@@ -35,10 +38,10 @@
   0%,
   40%,
   100% {
-    background-color: rgba(69, 69, 69, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
   }
   10% {
-    background-color: rgba(69, 69, 69, 1);
+    background-color: rgba(255, 255, 255, 1);
   }
 }
 
@@ -46,9 +49,9 @@
   0%,
   40%,
   100% {
-    background-color: rgba(69, 69, 69, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
   }
   10% {
-    background-color: rgba(69, 69, 69, 1);
+    background-color: rgba(255, 255, 255, 1);
   }
 }
