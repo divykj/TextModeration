@@ -10,24 +10,14 @@ import {
   FormTextarea,
   FormInput,
   Button,
+  CardFooter,
 } from "shards-react";
 
 import ActivityIndicator from "./components/ActivityIndicator";
 import "./App.css";
 
 const emptyPost = { title: "", body: "" };
-const initialPosts = [
-  { title: "Welcome, user", body: "Welcome to the clean blog." },
-  {
-    title: "No toxic content",
-    body:
-      "This blog site is free completely wholesome and devoid of any toxic content.",
-  },
-  {
-    title: "Backend",
-    body: "Toxic Content Detection of this blog is powered by NLP.",
-  },
-];
+const initialPosts = [];
 
 function App() {
   const [posts, setPosts] = useState(initialPosts);
@@ -79,6 +69,7 @@ function App() {
     <Container>
       <h1>Clean Blogging Site</h1>
       <div id="postCard">
+        <h4>New Post</h4>
         <Collapse open={!!error && !loading}>
           <Alert theme="danger">{error}</Alert>
         </Collapse>
@@ -105,7 +96,75 @@ function App() {
         </Button>
       </div>
       <main>
-        <h3>Previous blogs 🕓</h3>
+        <h3>All Posts</h3>
+        <Card>
+          <CardBody>
+            <CardTitle>About the Project</CardTitle>
+            <p>
+              This is a demonstration of our mini project,{" "}
+              <b>Text Moderation using NLP</b>.
+              <br />
+              It uses natural language processing to block any inappropriate
+              content.
+              <br />
+            </p>
+          </CardBody>
+          <CardFooter>
+            A project by <b>Divya Jain</b>, <b>Gunjan Mistry</b>
+            {" and "}
+            <b>Tanvi Inchanalkar</b>
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardBody>
+            <CardTitle>Implementation</CardTitle>
+            <p>
+              It uses <b>Flask</b> backend for the api, along with{" "}
+              <b>React.js</b> client for the frontend.
+              <br />
+              This code is hosted on a <b>Heroku</b> server with version control
+              and automatic deployment from <b>Github</b>.
+            </p>
+          </CardBody>
+          <CardFooter>
+            <b>
+              Source Code:{" "}
+              <a target="blank" href="https://bit.ly/moderationdemosource">
+                Github
+              </a>
+            </b>
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardBody>
+            <CardTitle>Design</CardTitle>
+            <p>
+              Various combinations of <b>embeddings</b> and <b>models</b> were
+              tested to find the best one.
+            </p>
+          </CardBody>
+          <CardFooter>
+            <small>
+              <b>
+                Notebooks: <br />
+                {"1) "}
+                <a target="blank" href="https://bit.ly/embeddingmodels">
+                  Embedding and Model Selection
+                </a>
+                <br />
+                {"2) "}
+                <a target="blank" href="https://bit.ly/ensembledtest">
+                  Ensembled Model Testing
+                </a>
+                <br />
+                {"3) "}
+                <a target="blank" href="https://bit.ly/modelpipeline">
+                  Pipelining for Deploying
+                </a>
+              </b>
+            </small>
+          </CardFooter>
+        </Card>
         {posts.map((post, idx) => (
           <Card key={idx}>
             <CardBody>
