@@ -7,8 +7,8 @@ from client.app import client
 app = FlaskAPI(__name__)
 CORS(app)
 
-app.register_blueprint(client, url_prefix='/')
-app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(client, url_prefix="/")
+app.register_blueprint(api, url_prefix="/api")
 
-if __name__=='__main__':
+if __name__ == "__main__":
     app.run(debug=True, threaded=False)

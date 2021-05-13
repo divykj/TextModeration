@@ -101,7 +101,7 @@ function App() {
           <CardBody>
             <CardTitle>About the Project</CardTitle>
             <p>
-              This is a demonstration of our mini project,{" "}
+              This is a demonstration of our project,{" "}
               <b>Text Moderation using NLP</b>.
               <br />
               It uses natural language processing to block any inappropriate
@@ -154,7 +154,7 @@ function App() {
                 <br />
                 {"2) "}
                 <a target="blank" href="https://bit.ly/ensembledtest">
-                  Ensembled Model Testing
+                  Ensemble Model Testing
                 </a>
                 <br />
                 {"3) "}
